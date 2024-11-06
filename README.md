@@ -1,6 +1,6 @@
 # Devoir-1-BVG-7003
 
-**Détermination du sexe des plants de Cannabis sativa en fonction du niveau d’expression du gène REM16**
+**Détermination du sexe des plants de *Cannabis sativa* en fonction du niveau d’expression du gène REM16**
 
 
 ## **Cas d'utilisation:** 
