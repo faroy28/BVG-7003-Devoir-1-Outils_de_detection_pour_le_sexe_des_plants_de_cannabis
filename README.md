@@ -15,7 +15,7 @@ Afin d’utiliser la deuxième partie du script pour déterminer le sexe de vos 
 -	Pour une utilisation simplifiée du script, il est fortement conseillé d’attribuer le terme : « LOC115699937 » pour les valeurs d’expression liés aux gène REM16. 
 
 ## **Résultats:**
-# **Première partie**
+ **Première partie**
 A)	Évaluation du niveau d’expression du gène REM16 en fonction du sexe de la plante
 Cette partie est conçue pour schématiser le niveau d’expression du gène REM16 sous le format d’un graphique de type « boxplot ». On remarque que selon le sexe, le niveau d’expression semble significativement différent. Il est juste d’affirmer qu’un niveau d’expression supérieur à 9.5 est associé au sexe femelle, contrairement aux plants male qui semblent avoir un niveau d’expression inférieur à 9.5. 
 B)	Évaluation du niveau d’expression du gène FT1 en fonction du sexe de la plante
@@ -23,7 +23,7 @@ Cette section est très similaire à la précédente. Elle montre sous forme d�
 C)	Évaluation du niveau d’expression des gènes REM16 et FT1 en fonction du sexe de la plante. 
 Cette partie combine les résultats des sections A et B. Elle procure sous forme de graphique de type « Boxplot » les niveaux d’expressions des gènes REM16 et FT1 en fonction du sexe des plantes. 
 
-# **Deuxième partie**
+ **Deuxième partie**
 Avec vos propres données transcriptomiques, vous obtiendrez une liste composée de deux colonnes. La première colonne « Male.Plants » vous indiquera tous les identifiants de plantes étant liés à des plants mâles d’après leur niveau d’expression du gène REM16. À l’inverse, la deuxième colonne « Female.Plants » vous indiquera les identifiants de plantes liés à des plants femelles.
 
 ## **Instructions**
