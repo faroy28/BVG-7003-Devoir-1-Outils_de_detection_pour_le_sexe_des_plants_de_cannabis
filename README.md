@@ -1,11 +1,11 @@
 # Devoir-1-BVG-7003
 
-Détermination du sexe des plants de Cannabis sativa en fonction du niveau d’expression du gène REM16
+*Détermination du sexe des plants de Cannabis sativa en fonction du niveau d’expression du gène REM16*
 
 
-Cas d'utilisation: 
+*Cas d'utilisation:* 
 Le présent pipeline est conçu pour déterminer le sexe des plants de cannabis à partir de données transcriptomiques. La première partie du script utilise un jeu de données obtenu lors d'une analyse transcriptomique de 138 plants de cannabis ou le sexe des plants était préalablement connu. Suite à une revue de littérature, l'hypothèse voulant que les locus LOC115699937 (REM16) et LOC115696989 (FT1) puissent être de bons marqueurs pour confirmer le sexe des plants a été soumise. La première partie du script a donc pour but de confirmer cette hypothèse, en montrant la différence marquée de l'expression du gène REM16 en fonction du sexe de la plante, en utilisant le gène FT1 comme témoin. La deuxième partie du script est utilisable avec votre propre jeu de données transcriptomiques. Il sert à trier vos plants de cannabis par leur sexe en fonction de l'expression du locus LOC115699937 (REM16) obtenue par votre expérience. La classification du sexe a été établie en interprétant les données transcriptomiques du gène REM16 et les graphiques obtenus dans la première partie du script. D'après ces derniers, le sexe femelle est attribué lorsque l'expression du gène REM16 est supérieure à 9.5. À l'inverse, le sexe mâle est donné lorsque l'expression du gène REM16 est inférieure à 9.5. La deuxième partie du script permettra de visualiser sous forme de liste quels sont vos plants mâles et femelles. 
-Données d’entrées
+*Données d’entrées*
 La première partie du script nécessite le téléchargement du fichier CSV donné dans ce dépôt (2_Data_RNASeq_Cannabis_Sex.zip).
 Afin d’utiliser la deuxième partie du script pour déterminer le sexe de vos plants de cannabis, vous devez avoir en votre possession un fichier CSV contenant des données d’expression géniques provenant d’une analyse transcriptomique effectuée sur vos plants. Les données doivent contenir :
 -	 Les valeurs d’expression génique de chacun des gènes en format numérique
@@ -13,19 +13,19 @@ Afin d’utiliser la deuxième partie du script pour déterminer le sexe de vos 
 -	Pour chacune des valeurs d’expression génique, le nom du gène auquel il fait référence doit être indiqué dans l’entête de la colonne. 
 -	Pour une utilisation simplifiée du script, il est fortement conseillé d’attribuer le terme : « LOC115699937 » pour les valeurs d’expression liés aux gène REM16. 
 
-Résultats:
+*Résultats:*
 La première partie du script est divisée en trois sections (A, B et C)
 A)	Évaluation du niveau d’expression du gène REM16 en fonction du sexe de la plante
-Cette partie est conçue pour schématiser le niveau d’expression du gène REM16 sous le format d’un graphique de type « boxplot ». On remarque que selon le sexe, le niveau d’expression semble significativement différent. Il est juste d’affirmer qu’un niveau d’expression supérieur à 9.5 est associé au sexe male, contrairement aux plants femelles qui semblent avoir un niveau d’expression inférieur à 9.5. 
+Cette partie est conçue pour schématiser le niveau d’expression du gène REM16 sous le format d’un graphique de type « boxplot ». On remarque que selon le sexe, le niveau d’expression semble significativement différent. Il est juste d’affirmer qu’un niveau d’expression supérieur à 9.5 est associé au sexe femelle, contrairement aux plants male qui semblent avoir un niveau d’expression inférieur à 9.5. 
 B)	Évaluation du niveau d’expression du gène FT1 en fonction du sexe de la plante
 Cette section est très similaire à la précédente. Elle montre sous forme d’un graphique de type « boxplot » le niveau d’expression du gène FT1 en fonction du sexe des plants. Le graphique révèle qu’il n’y a pas de différence significative entre les plants mâles et femelles au niveau de l’expression du gène en question. 
 C)	Évaluation du niveau d’expression des gènes REM16 et FT1 en fonction du sexe de la plante. 
 Cette partie combine les résultats des sections A et B. Elle procure sous forme de graphique de type « Boxplot » les niveaux d’expressions des gènes REM16 et FT1 en fonction du sexe des plantes. 
 
-Deuxième partie
+*Deuxième partie*
 Avec vos propres données transcriptomiques, vous obtiendrez une liste composée de deux colonnes. La première colonne « Male.Plants » vous indiquera tous les identifiants de plantes étant liés à des plants mâles d’après leur niveau d’expression du gène REM16. À l’inverse, la deuxième colonne « Female.Plants » vous indiquera les identifiants de plantes liés à des plants femelles.
 
-Instructions
+*Instructions*
 1.	Assurez-vous d’avoir téléchargé R et R studio sur votre ordinateur (https://posit.co/download/rstudio-desktop/)
 2.	Assurez-vous également d’avoir téléchargé le package «ggplot2» dans l’onglet « Packages » de la fenêtre en bas à droite de l’interface d’R studio. Si celui-ci n’est pas installé, veuillez entrer la ligne suivante en première de code : install.packages("ggplot2")
 3.	Téléchargez le fichier CSV donné dans ce dépôt. 
