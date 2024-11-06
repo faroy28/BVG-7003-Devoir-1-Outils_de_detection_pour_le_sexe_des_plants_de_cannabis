@@ -1,0 +1,208 @@
+---
+title: 'Devoir 1: F.A.R_script'
+author: "Félix-Antoine Ryy"
+date: "2024-11-05"
+output: html_document
+---
+# PREMIÈRE PARTIE - Validation de l'hypothèse
+
+# A) Évaluation du niveau d'expression du gène REM16 en fonction du sexe de la plante"
+
+Charger d'abord le fichier csv vous ayant été fourni contenant le jeu de donnée provenant de l'analyse transcriptomique des 138 plants de cannabis réalisé dans notre laboratoire. Veuillez trouver le fichier téléchargé dans son dossier de votre ordinateur et copier son chemin d'accès. Coller le chemin d'accès dans la parenthèse entre les "", et prenez soin de changer l'orientation des "/"
+
+```{r}
+tab <- read.csv("C:/Users/Felix/Downloads/2_Data_RNASeq_Cannabis_Sex.csv")
+```
+
+Par souci d'une meilleure visualisation des gènes étudiée, le nom des locus LOC115699937 et LOC115696989 ont été remplacés par le nom de leur gène respectif: REM16 et FT1.
+
+```{r}
+tab$X <- gsub("LOC115699937", "REM16", tab$X)
+tab$X <- gsub("LOC115696989", "FT1", tab$X)
+```
+
+ Le code suivant sert à extraire seulement les informations relatives au gène REM16 dans le jeu de données. Il crée également un nouveau jeu de donnée contenant uniquement les niveaux d'expression du gène REM16
+
+```{r}
+rem16_data <- tab[tab$X == "REM16", ]
+```
+
+Cette étape arrange les données du gène REM16 pour qu'elles puissent être analysées simplement. Un tableau de donnée structurée est créé (rem16_long) à partir des données transposées relatives au gène REM16. Les données de ce gène qui étaient sous forme de colonnes sont maintenant sous forme de ligne, en excluant la donnée de la première colonne qui fait référence au nom du gène.
+
+```{r}
+rem16_long <- data.frame(t(rem16_data[,-1])) 
+colnames(rem16_long) <- "expression"  # Le nom "expression" a été donnée à la colonne de données transposées. Les valeurs de cette colonne représentent les niveaux d'expression du gène REM16.
+
+```
+
+Cette prochaine ligne a pour but d'ajouter une colonne dans la table de donnée rem16_long. La nouvelle colonne, nommée "sample" contient pour chaque ligne l'identifiant, soit le nom des plantes, liées à son niveau d'expression dans la colonne voisine.  
+
+```{r}
+rem16_long$sample <- rownames(rem16_long)  # Ajoute les noms des échantillons
+```
+
+Le sexe des plants étant indiqué par les 2 derniers caractères de l'identifiant de chaque plant, cette étape vise à créer une nouvelle colonne dans la table de données rem16_long afin d'attribuer à chaque ligne le sexe de chacun des plants. Le code extrait les deux derniers caractères de chacun des identifiants et les copie dans la nouvelle colonne "sex" vis-à-vis leur identifiant respectif. La table de donnée rem16_long contient maintenant une colonne "sexe", "sample" et "expression".
+
+```{r}
+rem16_long$sex <- substr(rem16_long$sample, nchar(rem16_long$sample) - 1, nchar(rem16_long$sample))
+```
+
+À partir de la table de donnée rem16_long, un graphique de type boxplot est généré pour montrer le niveau d'expression du gène REM16 en fonction du sexe de la plante. 
+
+```{r}
+library(ggplot2)
+ggplot(rem16_long, aes(x = sex, y = expression, color = sex)) +    # L'axe des x est défini par les données de la colonne "sex" et l'axe des y "expression
+  geom_boxplot() + 
+  geom_jitter(width = 0.2) + 
+  labs(title = "Niveau d'expression du gène REM16 en fonction du sexe",     # Mets un titre au graphique: Niveau d'expression du gène REM16 en fonction du sexe.
+       x = "Sexe",                                                          # Nomme l'axe des x par "Sexe"
+       y = "Niveau d'expression") +                                         # Nomme l'axe des y par "Niveau d'expression"
+  theme_minimal()+
+  theme(
+    plot.title = element_text(hjust = 0.5),                                 # Cette commande centre le titre
+    legend.position = "none"                                                # Retire la légende
+  ) +
+  scale_y_continuous(limits = c(7, 12))                                     # Détermine le minimum et le maximum de l'axe des Y
+
+```
+
+# B) Évaluation du niveau d'expression du gène FT1 en fonction du sexe de la plante"
+
+Le code suivant sert a extraire seulement les informations relatives au gène FT1 dans le jeu de données. Il crée également un nouveau jeu de donnée contenant uniquement les niveaux d'expression du gène FT1
+
+```{r}
+ft1_data <- tab[tab$X == "FT1", ]
+```
+
+Cette étape arrange les données du gène FT1 pour qu'elles puissent être analysées facilement. Un tableau de donnée structurée est créé (ft1_long) à partir des données transposées relatives au gène FT1. Les données de ce gène qui étaient sous forme de colonnes sont maintenant sous forme de ligne, en excluant la donnée de la première colonne qui fait référence au nom du gène.
+
+```{r}
+ft1_long <- data.frame(t(ft1_data[,-1]))  
+colnames(ft1_long) <- "expression"  # Le nom "expression" a été donnée à la colonne de données transposée. Les valeurs de cette colonne représentent les niveaux d'expression du gène REM16
+```
+
+Cette ligne a pour but d'ajouter une colonne dans la table de donnée ft1_long. La nouvelle colonne, nommée "sample" contient pour chaque ligne l'identifiant, soit le nom des plantes, liées à son niveau d'expression dans la colonne voisine. 
+
+```{r}
+ft1_long$sample <- rownames(ft1_long)  # Ajoute les noms des échantillons
+```
+
+
+Le sexe des plants étant indiqué par les 2 derniers caractères de l'identifiant de chaque plant, cette étape vise à créer une nouvelle colonne dans la table de données ft1_long afin d'attribuer à chaque ligne le sexe de chacun des plants. Le code extrait les deux derniers caractères de chacun des identifiants et les copie dans la nouvelle colonne "sex" vis-à-vis leur identifiant respectif. La table de donnée ft1_long contient maintenant une colonne "sexe", "sample" et "expression"
+
+```{r}
+ft1_long$sex <- substr(ft1_long$sample, nchar(ft1_long$sample) - 1, nchar(ft1_long$sample))
+```
+
+À partir de la table de donnée ft1_long, un graphique de type boxplot est généré pour montrer le niveau d'expression du gène FT1 en fonction du sexe de la plante.
+
+```{r}
+library(ggplot2)
+ggplot(ft1_long, aes(x = sex, y = expression, color = sex)) + # L'axe des x est définit par les données de la colonne "sex" et l'axe des y "expression
+  geom_boxplot() + 
+  geom_jitter(width = 0.2) + 
+  labs(title = "Niveau d'expression du gène FT1 en fonction du sexe", # Met un titre au graphique: Niveau d'expression du gène REM16 en fonction du sexe
+       x = "Sexe",                                                    # Nomme l'axe des x par "Sexe"
+       y = "Niveau d'expression") +                                   # Nomme l'axe des y par "Niveau d'expression"
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(hjust = 0.5),                                 # Cette commande centre le titre
+    legend.position = "none",                                                # Retire la légende
+  ) +
+scale_y_continuous(limits = c(5, 10))                                   # Détermine le minimum et le maximum de l'axe des Y
+```
+
+# C) Création d'un graphique montrant le niveau d'expression des gènes REM16 et FT1 en fonction du sexe de la plante.
+
+Ces prochaines lignes créées une colonne supplémentaire nommée "gene" dans chacune des tables de données (rem16_long et ft1_long). Ces colonnes contiendront les valeurs REM16 et FT1 dans chacune des lignes, pour les valeurs d'expression leur étant associées.
+```{r}
+rem16_long$gene <- "REM16" 
+ft1_long$gene <- "FT1" 
+```
+
+Ce code combine les tables de données rem16_long et ft1_long
+
+```{r}
+combined_data <- rbind(rem16_long, ft1_long)
+```
+
+À partir de la table de données combinées (combined_data), un graphique de type boxplot est généré pour montrer les niveaux d'expression des gènes REM16 et FT1 en fonction du sexe de la plante
+
+```{r}
+library(ggplot2)
+ggplot(combined_data, aes(x = sex, y = expression, color = gene)) + # Les valeurs de l'axe des x représentent les ex, et l'axe des y, le niveau d'expression. Les éléments du tableau seront de couleurs différentes en fonction du gène
+  geom_boxplot(outlier.shape = NA, position = position_dodge(width = 0.75)) + # Ce code permet de décaler les boites du boxplot pour une visualisation harmonieuse
+  geom_point(position = position_jitterdodge(jitter.width = 0.2, dodge.width = 0.75)) +  # Ce code permet de regrouper les points dans les boites et éviter un chevauchement
+  labs(title = "Niveau d'expression des gènes REM16 et FT1 en fonction du sexe", # Attribu un titre au graphique
+       x = "Sexe",                                                               # Donne un nom à l'axe des X
+       y = "Niveau d'expression",                                                # Donne un nom à l'axe des Y
+       color = "Gène") +                                                         # Donne un nom à la légende
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) + #Cette commande centre le titre
+  scale_y_continuous(limits = c(6, 12))   
+```
+
+# DEUXIÈME PARTIE - Déterminer le sexe de vos plantes à l'aide de vos données transcriptomiques.
+
+Charger votre propre fichier csv contenant vos données transcriptomiques en collant le chemin d'accès de ce dernier à l'intérieur des "". Prenez soin de changer l'orientation des "/"
+
+```{r}
+tab <- read.csv("C:/Users/Felix/Downloads/2_Data_RNASeq_Cannabis_Sex.csv")
+```
+
+Cette ligne sert à extraire seulement les informations relatives au gène REM16 (loc115699937) dans votre jeu de données. Il crée également un nouveau jeu de donnée contenant uniquement les niveaux d'expression du gène REM16. ATTENTION: Remplacez le terme "loc115699937" dans la ligne de code avec le terme que vous avez vous-même attribuez aux données liées au gène REM16. Cette consigne est valable pour toutes les autres lignes de code suivantes. 
+
+```{r}
+loc115699937_data <- tab[tab$X == "LOC115699937", ]
+```
+
+Cette étape arrange les données du gène loc115699937 pour qu'elles puissent être analysées simplement. Un tableau de donnée structurée est créé (loc115699937_long) à partir des données transposées relatives au gène loc115699937. Les données de ce gène qui étaient sous forme de colonnes sont maintenant sous forme de ligne, en excluant la donnée de la première colonne qui fait référence au nom du gène.
+
+```{r}
+loc115699937_long <- data.frame(t(loc115699937_data[,-1])) 
+colnames(loc115699937_long) <- "expression"  # Le nom "expression" a été donnée à la colonne de données transposée. Les valeurs de cette colonne représentent les niveaux d'expression du gène loc115699937
+
+```
+
+Cette prochaine ligne a pour but d'ajouter une colonne dans la table de donnée loc115699937_long. La nouvelle colonne, nommée "sample" contient pour chaque ligne l'identifiant, soit le nom de vos plantes plantes, liés à son niveau d'expression dans la colonne voisine. 
+
+```{r}
+loc115699937_long$sample <- rownames(loc115699937_long) 
+```
+
+Ce code a pour but de transformer les données de la colonne "expression" au format numérique si ce n'était préalablement pas le cas. 
+
+```{r}
+loc115699937_long$expression <- as.numeric(loc115699937_long$expression)
+```
+
+Cette ligne a pour but de placer les plants selon leur sexe en fonction de leur niveau d'expression. Basée sur les observations de la première partie de ce script, l'étiquette "Male" est attribuée à toutes le plantes ayant une valeur d'expression du gène loc115699937 supérieur à 9.5, et l'étiquette femelle est attribuée à celles ayant une valeur d'expression inférieure à 9.5.
+
+```{r}
+loc115699937_long$plant_type <- ifelse(loc115699937_long$expression > 9.5, "Female", "Male")
+```
+
+Le code suivant génère des tableaux pour les plantes mâles, et femelles en fonction du niveau d'expression génique.
+
+```{r}
+Female_plants <- loc115699937_long[loc115699937_long$plant_type == "Female", "sample"]
+Male_plants <- loc115699937_long[loc115699937_long$plant_type == "Male", "sample"]
+```
+
+Les lignes suivantes vont générer un tableau de classification en format data frame. Deux colonnes sont créées: Male plants et Female plants
+
+```{r}
+classification_table <- data.frame(
+  "Female Plants" = Female_plants,
+  "Male Plants" = Male_plants)
+```
+
+Ce code fait l'impression du tableau de classification de vos plants mâles et femelles. 
+
+```{r}
+print(classification_table)
+```
+
+
+
+
